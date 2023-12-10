@@ -1,0 +1,25 @@
+<div class="flex items-center justify-center h-screen">
+  <form class="p-8 rounded shadow-md w-96">
+    <h2 class="text-2xl font-bold mb-4">Login</h2>
+
+    <!-- Email Address Input -->
+    <div class="mb-4">
+      <label for="email" class="block text-gray-600 font-medium">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Example@mail.com" class="input input-bordered input-primary w-full max-w-xs" required/>
+    </div>
+
+    <!-- Password Input -->
+    <div class="mb-4">
+      <label for="password" class="block text-gray-600 font-medium">Password</label>
+      <input type="password" id="password" name="password" placeholder="Password" class="input input-primary input-bordered w-full max-w-xs" required/>
+    </div>
+
+    <!-- Login Button -->
+    <button type="submit" class="btn btn-secondary w-full">Jump In</button>
+
+    <div class="mb-4 text-right">
+      <a routerLink="../forgot-password" class="link link-accent">Oops! I forgot my credentials</a>
+    </div>
+
+  </form>
+</div>
