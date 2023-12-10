@@ -1,1 +1,35 @@
-<p>family-management works!</p>
+<div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Guardians</th>
+        <th>Address</th>
+        <th>Emergency Contact</th>
+        <th>Children</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let family of familyData">
+        <td>{{ family.id }}</td>
+        <td>
+          <div *ngFor="let guardian of family.guardians; let last = last" class="font-bold">{{ guardian.name }}{{ !last ? ', ' : '' }}
+          </div>
+        </td>
+        <td>{{ family.address.addressDetails}}</td>
+        <td>{{ family.emergencyContact.name}}</td>
+        <td>
+          <!-- Display all children in one cell -->
+          <ng-container *ngFor="let child of family.children; let last = last">
+            <div>{{ child.name }}{{ !last ? ', ' : '' }}
+            <!-- Apply the badge only to the active child -->
+            <span *ngIf="child.active" class="badge badge-sm badge-outline badge-secondary">Active</span>
+          </div>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
