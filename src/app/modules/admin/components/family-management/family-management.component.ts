@@ -1,30 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FamilyService } from 'src/app/services/family-management.service';
+import { Family } from 'src/app/models/family.model';
+import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
-  providers: [FamilyService],
   selector: 'app-family-management',
   templateUrl: './family-management.component.html',
-  styleUrls: ['./family-management.component.scss']
+  styleUrls: ['./family-management.component.scss'],
 })
 export class FamilyManagementComponent implements OnInit {
-  familyData: any;
+  familiesData!: Family[];
+  familyData!: Family;
+  faTrash = faTrash;
+  faPencil = faPencil;
 
-  constructor(private familyService: FamilyService) { }
+  constructor(private familyService: FamilyService) {}
 
-  ngOnInit(): void {
-    this.getFamilyData();
+  ngOnInit() {
+    this.getFamilies();
   }
 
-  getFamilyData(): void {
-    this.familyService.getFamilyData().subscribe(
-      (data: any) => {
-        this.familyData = data.data; // Assuming family data is nested under 'data' key
+  getFamilies() {
+    this.familyService.getFamilies().subscribe(
+      (families) => {
+        this.familiesData = families;
       },
-      error => {
-        console.error('Error fetching family data:', error);
+      (error) => {
+        console.error(`Error retrieving families: ${error}`);
       }
     );
   }
 
+  editFamily(familyId: number) {
+
+  }
+
+  saveFamily(Family: Family) {
+    this.familyService.saveFamily(Family).subscribe(
+      (family) => {
+        this.familyData = family;
+      },
+      (error) => {
+        console.error(`Error saving family: ${error}`);
+      }
+    );
+  }
+
+  deleteFamily(familyId: number) {
+
+  }
 }
+

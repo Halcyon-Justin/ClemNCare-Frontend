@@ -1,34 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { Family } from '../models/family.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FamilyService {
-  private apiUrl = 'http://localhost:8080/api/'; // Replace with actual API URL
+  private apiUrl = 'http://localhost:8080/api/';
+  private familiesEndpoint = 'families/';
 
   constructor(private http: HttpClient) { }
 
-  getFamilyData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}families/`)
+  getFamilies(): Observable<Family[]> {
+    return this.http.get<any>(`${this.apiUrl}${this.familiesEndpoint}`)
       .pipe(
-        tap(data => console.log('Family Data:', data)),
+        map(response => response.data), // Extract the 'data' property
         catchError(this.handleError)
       );
   }
 
+  getFamily(familyId: number): Observable<Family> {
+    return this.http.get<Family>(`${this.apiUrl}${this.familiesEndpoint}${familyId}`)
+    .pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+  }
+
+  saveFamily(Family: Family): Observable<Family> {
+    return this.http.post<Family>(`${this.apiUrl}${this.familiesEndpoint}`, Family)
+    .pipe(catchError(this.handleError));
+  }
+
+  deleteFamily(familyId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}${this.familiesEndpoint}${familyId}`)
+    .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
     }
-    // Return an observable with a user-facing error message.
     return throwError('Something bad happened; please try again later.');
   }
 }
+

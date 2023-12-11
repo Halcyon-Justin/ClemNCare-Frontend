@@ -1,3 +1,4 @@
+<!-- family-management.component.html -->
 <div class="overflow-x-auto">
   <table class="table">
     <!-- head -->
@@ -12,16 +13,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let family of familyData">
+      <tr *ngFor="let family of familiesData">
         <td>{{ family.id }}</td>
         <td>
-          <div *ngFor="let guardian of family.guardians; let last = last" class="font-bold">{{ guardian.name }}{{ !last ? ', ' : '' }}
-          </div>
+          <div *ngFor="let guardian of family.guardians; let last = last" class="font-bold">{{ guardian.name }}{{ !last ? ', ' : '' }}</div>
         </td>
-        <td>{{ family.address.addressDetails}}</td>
-        <td>{{ family.emergencyContact.name}}</td>
+        <td>{{ family.address.addressDetails }}</td>
+        <td>{{ family.emergencyContact.name }}</td>
         <td>
-          <!-- Display all children in one cell -->
           <ng-container *ngFor="let child of family.children; let last = last">
             <div>{{ child.name }}{{ !last ? ', ' : '' }}
             <!-- Apply the badge only to the active child -->
@@ -29,6 +28,13 @@
           </div>
           </ng-container>
         </td>
+        <td>
+          <a (click)="editFamily(family.id)" title="Edit Family" class="menu menu-horizontal">
+            <fa-icon [icon]="faPencil"></fa-icon>
+          </a>
+          <a (click)="deleteFamily(family.id)" title="Delete Family" class="menu menu-horizontal">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </a>
       </tr>
     </tbody>
   </table>
