@@ -1,1 +1,47 @@
-<p>create-edit-family works!</p>
+<div class="navbar bg-base-100">
+  <div class="navbar-start">
+
+  </div>
+  <div class="navbar-end">
+    <a class="btn btn-error">Save</a>
+  </div>
+</div>
+<section class="max-w-4xl p-6 mx-auto rounded-md shadow-md text-center">
+  <p class="text-xl">Guardians</p>
+</section>
+<form class="">
+  <ng-container *ngFor="let guardianGroup of guardianFormArray.controls; let i = index">
+    <section class="max-w-4xl p-6 mx-auto rounded-md shadow-md collapse">
+      <input type="checkbox" />
+      <div class="navbar rounded-md collapse-title">
+        <div class="flex-1">
+          <p class="text-xl">Guardian{{i + 1}}</p>
+        </div>
+      </div>
+      <button (click)="removeGuardian(i)" type="button"><fa-icon [icon]="faSquareXmark"></fa-icon></button>
+
+      <div class="collapse-content">
+        <label class="form-control w-full max-w-xs" for="guardian">
+          <div class="label">
+            <span class="label-text">First Name</span>
+          </div>
+          <input type="text" placeholder="First" class="input input-bordered w-full max-w-xs" />
+        </label>
+
+        <div>
+          <label class="form-control w-full max-w-xs" for="guardian">
+            <div class="label">
+              <span class="label-text">Last Name</span>
+            </div>
+            <input type="text" placeholder="Last" class="input input-bordered w-full max-w-xs" />
+          </label>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+
+  <section class="max-w-4xl p-6 mx-auto rounded-md shadow-md text-center">
+    <button class="" type="button" (click)="addGuardianForm()"><fa-icon class="text-lg"
+        [icon]="faSquarePlus"></fa-icon></button>
+  </section>
+</form>

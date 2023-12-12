@@ -22,20 +22,35 @@
         <td>{{ family.emergencyContact.name }}</td>
         <td>
           <ng-container *ngFor="let child of family.children; let last = last">
-            <div>{{ child.name }}{{ !last ? ', ' : '' }}
-            <!-- Apply the badge only to the active child -->
-            <span *ngIf="child.active" class="badge badge-sm badge-outline badge-secondary">Active</span>
+            <div>{{ child.name }}
+            <span *ngIf="child.active" class="indicator-item badge badge-xs badge-secondary"></span>
           </div>
           </ng-container>
         </td>
         <td>
-          <a (click)="editFamily(family.id)" title="Edit Family" class="menu menu-horizontal">
+          <button (click)="editFamily(family.id)" class="btn btn-ghost">
             <fa-icon [icon]="faPencil"></fa-icon>
-          </a>
-          <a (click)="deleteFamily(family.id)" title="Delete Family" class="menu menu-horizontal">
+          </button>
+          <button (click)="getFamilyId(family.id)" onClick="deleteModal.show()" class="btn btn-ghost" >
             <fa-icon [icon]="faTrash"></fa-icon>
-          </a>
+          </button>
       </tr>
     </tbody>
   </table>
 </div>
+
+<dialog id="deleteModal" class="modal modal-bottom sm:modal-middle" aria-labelledby="deleteModalLabel">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Do you want to delete this family?</h3>
+    <p class="py-4">You cannot undo this.</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <div class="grid gap-4 grid-cols-2">
+          <button (click)="deleteFamily()" class="btn btn-error">Delete</button>
+          <button class="btn">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>

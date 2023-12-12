@@ -1,8 +1,7 @@
 // create-edit-family.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Family } from 'src/app/models/family.model';
-import { FamilyService } from 'src/app/services/family-management.service';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { faSquareXmark, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-create-edit-family',
@@ -10,26 +9,29 @@ import { FamilyService } from 'src/app/services/family-management.service';
   styleUrls: ['./create-edit-family.component.scss'],
 })
 export class CreateEditFamilyComponent implements OnInit {
-  family: Family | null = null;
+  guardianFormArray: FormArray = this.fb.array([this.createGuardianForm()]);
+  faSquareXmark = faSquareXmark;
+  faSquarePlus = faSquarePlus;
 
-  constructor(private route: ActivatedRoute, private familyService: FamilyService) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
-    // Retrieve the family ID from the route parameters
-    const familyId = this.route.snapshot.params['id'];
+  ngOnInit(): void {
+    this.guardianFormArray = this.fb.array([this.createGuardianForm()]);
+  }
 
-    // Fetch the family details based on the ID
-    if (familyId) {
-      this.familyService.getFamily(familyId).subscribe(
-        (family) => {
-          this.family = family;
-        },
-        (error) => {
-          console.error(`Error retrieving family: ${error}`);
-        }
-      );
-    } else {
-      // Handle the case when creating a new family (optional)
-    }
+  createGuardianForm(): FormGroup {
+    return this.fb.group({
+      firstName: '',
+      lastName: '',
+
+    });
+  }
+
+  addGuardianForm(): void {
+    this.guardianFormArray.push(this.createGuardianForm());
+  }
+
+  removeGuardian(index: number): void {
+    this.guardianFormArray.removeAt(index);
   }
 }
